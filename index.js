@@ -659,7 +659,7 @@ function createTables() {
     createAmountTable("materials", "Material", profile.materials, false);
     createAmountTable("scrolls", "Scroll Type", profile.scrolls, true);
     createAmountTable("equipment", "Equipment", profile.equipment, false);
-    createAmountTable("borbventure", "Borbventure Inventory", profile.inventory, false);
+    createAmountTable("borbventure", "Borbventure Inventory", profile.borbventure.inventory, false);
     loadCraftedLeaves(profile);
     // createAmountTable("relics", "Relic", profile.relics); too long
 }
@@ -777,6 +777,51 @@ function setupProfileSelect() {
 }
 
 function createAmountTable(id, title, data, doUnlocks) {
+    let table = document.getElementById(id);
+    while (table.firstChild) {
+        table.removeChild(table.firstChild);
+    }
+
+    if (doUnlocks)
+        table.appendChild(createRow(title, "Amount", "Unlocked"));
+    else
+        table.appendChild(createRow(title, "Amount"));
+
+    for (const key in data) {
+        let item = data[key];
+
+        let amount = document.createElement("input");
+        amount.setAttribute("type", "number");
+        amount.value = item.count;
+
+        if (doUnlocks) amount.disabled = !item.unlocked;
+
+        amount.addEventListener("change", () => {
+            let value = amount.valueAsNumber;
+
+            let change = value - item.count;
+
+            item.count = value;
+            item.collected += change;
+            item.collected_total += change;
+        });
+
+        let unlock = document.createElement("input");
+        unlock.type = "checkbox";
+        unlock.checked = item.unlocked;
+        unlock.addEventListener("input", () => {
+            amount.disabled = !unlock.checked;
+            item.unlocked = unlock.checked;
+        });
+
+        if (doUnlocks)
+            table.appendChild(createRow(pretty(key), amount, unlock));
+        else
+            table.appendChild(createRow(pretty(key), amount));
+    }
+}
+
+function createAmountTableSpecial(id, title, data, doUnlocks) {
     let table = document.getElementById(id);
     while (table.firstChild) {
         table.removeChild(table.firstChild);
