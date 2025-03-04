@@ -42,6 +42,9 @@ function openTab(evt, content) {
   tabcontent = document.getElementsByClassName("tabcontent");
   for (i = 0; i < tabcontent.length; i++) {
     tabcontent[i].style.display = "none";
+  if (content == 'all') {
+  tabcontent[i].style.display = "block";
+  }
   }
   tablink = document.getElementsByClassName("tablink");
   for (i = 0; i < tablink.length; i++) {
@@ -49,8 +52,8 @@ function openTab(evt, content) {
   }
   document.getElementById(content).style.display = "block";
   evt.currentTarget.className += " active";
+
 }
-</script>
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -139,31 +142,31 @@ function openTab(evt, content) {
     <div id="all" class="tabcontent">
         <div id="data">
             <div style="margin-right: 1.5em">
-                <table id="resources"></table>
+                <table id="resources" style="display: none"></table>
             </div>
             <div style="margin-right: 1.5em">
-                <table id="artifacts"></table>
+                <table id="artifacts" style="display: none"></table>
                 <br>
-                <table id="chests"></table>
+                <table id="chests" style="display: none"></table>
                 <br>
-                <table id="materials"></table>
+                <table id="materials" style="display: none"></table>
             </div>
             <div style="margin-right: 1.5em">
-                <table id="scrolls"></table>
+                <table id="scrolls" style="display: none"></table>
                 <br>
-                <table id="equipment"></table>
+                <table id="equipment" style="display: none"></table>
                 <br>
-                <table id="borbventure"></table>
+                <table id="borbventure" style="display: none"></table>
                 <!--table id="relics"></table-->
             </div>
             <div style="margin-right: 1.5em">
-                <table id="crafted_leaves"></table>
+                <table id="crafted_leaves" style="display: none"></table>
                 <!--table id="relics"></table-->
             </div>
         </div>
     </div>
 
-    <div id="artifacts_chest_materials" class="tabcontent">
+    <!--<div id="artifacts_chest_materials" class="tabcontent">
         <div id="data">
             <div style="margin-right: 1.5em">
                 <table id="artifacts"></table>
