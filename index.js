@@ -280,7 +280,7 @@ const leaves = [
     },
     {
         name: "Azurite Leaves",
-        id: "a<0x7A>urite",
+        id: "azurite",
         img: "",
     },
     {
