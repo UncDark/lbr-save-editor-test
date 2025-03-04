@@ -243,6 +243,36 @@ const leaves = [
         id: "shards",
         img: "",
     },
+    {
+        name: "Ascension Shards",
+        id: "ascension_shards",
+        img: "",
+    },
+    {
+        name: "Fusion Shards",
+        id: "fusion_shards",
+        img: "",
+    },
+    {
+        name: "Transformation Shards",
+        id: "transformation_shards",
+        img: "",
+    },
+    {
+        name: "Dice",
+        id: "dice",
+        img: "",
+    },
+    {
+        name: "Power Dice",
+        id: "power_dice",
+        img: "",
+    },
+    {
+        name: "Azurite Leaves",
+        id: " a<0x7A>urite",
+        img: "",
+    },
     {},
     {
         name: "Borbs",
