@@ -135,6 +135,11 @@ const leaves = [
         id: "hematite",
         img: "",
     },
+    {
+        name: "Plasma Leaves",
+        id: "plasma",
+        img: "",
+    },
     {},
     {
         name: "Amber",
