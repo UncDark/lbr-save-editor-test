@@ -659,7 +659,7 @@ function createTables() {
     createAmountTable("materials", "Material", profile.materials, false);
     createAmountTable("scrolls", "Scroll Type", profile.scrolls, true);
     createAmountTable("equipment", "Equipment", profile.equipment, false);
-    createAmountTable("borbventure", "Borbventure Inventory", profile.borbventure.inventory, false);
+    createAmountTable("borbventure.inventory", "Borbventure Inventory", profile.borbventure.inventory, false);
     loadCraftedLeaves(profile);
     // createAmountTable("relics", "Relic", profile.relics); too long
 }
