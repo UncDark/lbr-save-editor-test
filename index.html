@@ -1,6 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
+<style>
+body {font-family: Arial;}
 
+.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
+
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: 17px;
+}
+
+.tab button:hover {
+  background-color: #ddd;
+}
+
+.tab button.active {
+  background-color: #ccc;
+}
+
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+</style>
+
+<script>
+function openTab(evt, content) {
+  var i, tabcontent, tablink;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablink = document.getElementsByClassName("tablink");
+  for (i = 0; i < tablink.length; i++) {
+    tablink[i].className = tablink[i].className.replace(" active", "");
+  }
+  document.getElementById(content).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+</script>
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -76,6 +126,17 @@
         <br>
         <select id="profileSelect" hidden></select>
         <br>
+        <h2>Contents</h2>
+
+            <div class="tab">
+            <button class="tablink" onclick="openTab(event, 'all')">All</button>
+            <button class="tablink" onclick="openTab(event, 'resources')">Resources</button>
+            <button class="tablink" onclick="openTab(event, 'artifacts_chest_materials')">Artifacts, Chests and Materials</button>
+            <button class="tablink" onclick="openTab(event, 'scroll_equipment')">Scrolls and Equipment</button>
+            <button class="tablink" onclick="openTab(event, 'borbventure')">Borbventure</button>
+            <button class="tablink" onclick="openTab(event, 'leaves')">Crafted Leaves</button>
+        </div>
+    <div id="all" class="tabcontent">
         <div id="data">
             <div style="margin-right: 1.5em">
                 <table id="resources"></table>
@@ -100,6 +161,76 @@
                 <!--table id="relics"></table-->
             </div>
         </div>
+    </div>
+
+    <div id="artifacts_chest_materials" class="tabcontent">
+        <div id="data">
+            <div style="margin-right: 1.5em">
+                <table id="artifacts"></table>
+                <br>
+                <table id="chests"></table>
+                <br>
+                <table id="materials"></table>
+            </div>
+        </div>
+    </div>  
+    <div id="resources" class="tabcontent">
+        <div id="data">
+            <div style="margin-right: 1.5em">
+                <table id="resources"></table>
+            </div>
+        </div>
+    </div>
+
+    <div id="scroll_equipment" class="tabcontent">
+        <div id="data">
+            <div style="margin-right: 1.5em">
+                <table id="scrolls"></table>
+                <br>
+                <table id="equipment"></table>
+            </div>
+        </div>
+    </div>
+    <div id="borbventure" class="tabcontent">
+        <div id="data">
+            <div style="margin-right: 1.5em">
+                <table id="borbventure"></table>
+            </div>
+        </div>
+    </div>
+
+    <div id="leaves" class="tabcontent">
+        <div id="data">
+            <div style="margin-right: 1.5em">
+                <table id="crafted_leaves"></table>
+            </div>
+        </div>
+    </div>
+
+       <!-- <div id="data">
+            <div style="margin-right: 1.5em">
+                <table id="resources"></table>
+            </div>
+            <div style="margin-right: 1.5em">
+                <table id="artifacts"></table>
+                <br>
+                <table id="chests"></table>
+                <br>
+                <table id="materials"></table>
+            </div>
+            <div style="margin-right: 1.5em">
+                <table id="scrolls"></table>
+                <br>
+                <table id="equipment"></table>
+                <br>
+                <table id="borbventure"></table>
+                <!--table id="relics"></table-->
+            <!--</div>
+            <div style="margin-right: 1.5em">
+                <table id="crafted_leaves"></table>
+                <!--table id="relics"></table-->
+            <!--</div>
+        </div>-->
         </div>
         <!-- from https://github.com/tholman/github-corners -->
         <a href="https://github.com/Redcrafter/lbr-save-editor" class="github-corner" aria-label="View source on GitHub">
