@@ -860,9 +860,9 @@ function createAmountTableSpecial(id, title, data, doUnlocks) {
         });
 
         if (doUnlocks)
-            table.appendChild(createRow(item.type_key, amount, unlock));
+            table.appendChild(createRow(pretty(item.type_key), amount, unlock));
         else
-            table.appendChild(createRow(item.type_key, amount));
+            table.appendChild(createRow(pretty(item.type_key), amount));
     }
 }
 
