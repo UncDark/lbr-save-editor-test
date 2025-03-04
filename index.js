@@ -140,6 +140,11 @@ const leaves = [
         id: "plasma",
         img: "",
     },
+    {
+        name: "Coal Leaves",
+        id: "coal",
+        img: "",
+    },
     {},
     {
         name: "Amber",
@@ -219,11 +224,6 @@ const leaves = [
         img: "spr_cp.png",
     },
     {
-        name: "Borbs",
-        id: "borbs",
-        img: "borb.png",
-    },
-    {
         name: "Cheese",
         id: "cheese",
         img: "cheese.png",
@@ -241,6 +241,37 @@ const leaves = [
     {
         name: "Shards",
         id: "shards",
+        img: "",
+    },
+    {},
+    {
+        name: "Borbs",
+        id: "borbs",
+        img: "borb.png",
+    },
+    {
+        name: "Borb Juice",
+        id: "borb_juice",
+        img: "",
+    },
+    {
+        name: "Borb Ascension Juice",
+        id: "borb_ascension_juice",
+        img: "",
+    },
+    {
+        name: "Borb Token",
+        id: "borb_token",
+        img: "",
+    },
+    {
+        name: "Borb Rune",
+        id: "borb_rune",
+        img: "",
+    },
+    {
+        name: "Borb Ascension Rune",
+        id: "borb_rune",
         img: "",
     },
 ];
