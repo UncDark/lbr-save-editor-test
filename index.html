@@ -39,9 +39,18 @@ body {font-family: Arial;}
 <script>
 function openTab(evt, content) {
   var i, tabcontent, tablink;
-  tabcontent = document.getElementsByClassName("tabcontent");
+  /*
+  resources = document.getElementsById("resources")
+  artifacts = document.getElementsById("artifacts")
+  chests = document.getElementsById("chests")
+  materials = document.getElementsById("materials")
+  scrolls = document.getElementsById("scrolls")
+  equipment = document.getElementsById("equipment")
+  borbventure = document.getElementsByClassId("borbventure");
+  */
+  tabcontent = document.getElementsByClassName("content");
   for (i = 0; i < tabcontent.length; i++) {
-    tabcontent[i].style.display = "none";
+    //tabcontent[i].style.display = "none";
   if (content == 'all') {
   tabcontent[i].style.display = "block";
   }
@@ -109,7 +118,7 @@ function openTab(evt, content) {
                 Revolution</a> game.
             It is not affiliated with the game or its developer. <b>Using this tool in multiplayer modes may result in a ban.</b>
             Do NOT use this tool in multiplayer mode. You have been warned. We are NOT responsible for any actions taken onto your account.</c>
-            Current version : 1.2</d>
+            Current version : 1.2.5</d>
         </p>
         <h2>How to use</h2>
         <p>
@@ -136,29 +145,32 @@ function openTab(evt, content) {
             <div class="tab">
             <button class="tablink" onclick="openTab(event, 'all')">All</button>
             <button class="tablink" onclick="openTab(event, 'resources')">Resources</button>
-            <button class="tablink" onclick="openTab(event, 'artifacts_chest_materials')">Artifacts, Chests and Materials</button>
-            <button class="tablink" onclick="openTab(event, 'scroll_equipment')">Scrolls and Equipment</button>
+            <button class="tablink" onclick="openTab(event, 'artifacts')">Artifacts</button>
+            <button class="tablink" onclick="openTab(event, 'chests')">Chests</button>
+            <button class="tablink" onclick="openTab(event, 'materials')">Materials</button>
+            <button class="tablink" onclick="openTab(event, 'scrolls')">Scrolls</button>
+            <button class="tablink" onclick="openTab(event, 'equipment')">Equipment</button>
             <button class="tablink" onclick="openTab(event, 'borbventure')">Borbventure</button>
-            <button class="tablink" onclick="openTab(event, 'leaves')">Crafted Leaves</button>
+            <button class="tablink" onclick="openTab(event, 'crafted_leaves')">Crafted Leaves</button>
         </div>
-    <div id="all" class="tabcontent">
+    <!--<div id="all" class="tabcontent">-->
         <div id="data">
             <div style="margin-right: 1.5em">
-                <table id="resources" style="display: none"></table>
+                <table class="content" id="resources" style="display: none"></table>
             </div>
             <div style="margin-right: 1.5em">
-                <table id="artifacts" style="display: none"></table>
+                <table class="content" id="artifacts" style="display: none"></table>
                 <br>
-                <table id="chests" style="display: none"></table>
+                <table class="content" id="chests" style="display: none"></table>
                 <br>
-                <table id="materials" style="display: none"></table>
+                <table class="content" id="materials" style="display: none"></table>
             </div>
             <div style="margin-right: 1.5em">
-                <table id="scrolls" style="display: none"></table>
+                <table class="content" id="scrolls" style="display: none"></table>
                 <br>
-                <table id="equipment" style="display: none"></table>
+                <table class="content" id="equipment" style="display: none"></table>
                 <br>
-                <table id="borbventure" style="display: none"></table>
+                <table class="content" id="borbventure" style="display: none"></table>
                 <!--table id="relics"></table-->
             </div>
             <div style="margin-right: 1.5em">
@@ -166,7 +178,7 @@ function openTab(evt, content) {
                 <!--table id="relics"></table-->
             </div>
         </div>
-    </div>
+    <!--</div>-->
 
     <!--<div id="artifacts_chest_materials" class="tabcontent">
         <div id="data">
