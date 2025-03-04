@@ -136,6 +136,11 @@ const leaves = [
         img: "",
     },
     {
+        name: "Electrical Energy",
+        id: "energy_electrical",
+        img: "",
+    },
+    {
         name: "Plasma Leaves",
         id: "plasma",
         img: "",
