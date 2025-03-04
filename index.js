@@ -822,8 +822,7 @@ function createAmountTable(id, title, data, doUnlocks) {
 }
 
 function createAmountTableSpecial(id, title, data, doUnlocks) {
-    let temp = document.getElementById(id);
-    let table = temp.inventory
+    let table = document.getElementById(id);
     while (table.firstChild) {
         table.removeChild(table.firstChild);
     }
