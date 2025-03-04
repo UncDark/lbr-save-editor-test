@@ -321,7 +321,7 @@ const leaves = [
     },
     {
         name: "Borb Ascension Rune",
-        id: "borb_rune",
+        id: "borb_ascension_rune",
         img: "",
     },
     {},
