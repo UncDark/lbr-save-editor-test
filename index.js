@@ -659,7 +659,7 @@ function createTables() {
     createAmountTable("materials", "Material", profile.materials, false);
     createAmountTable("scrolls", "Scroll Type", profile.scrolls, true);
     createAmountTable("equipment", "Equipment", profile.equipment, false);
-    createAmountTable("borbventure.inventory", "Borbventure Inventory", profile.borbventure.inventory, false);
+    createAmountTableSpecial("borbventure", "Borbventure Inventory", profile.borbventure.inventory, false);
     loadCraftedLeaves(profile);
     // createAmountTable("relics", "Relic", profile.relics); too long
 }
@@ -822,7 +822,8 @@ function createAmountTable(id, title, data, doUnlocks) {
 }
 
 function createAmountTableSpecial(id, title, data, doUnlocks) {
-    let table = document.getElementById(id);
+    let temp = document.getElementById(id);
+    let table = temp.inventory
     while (table.firstChild) {
         table.removeChild(table.firstChild);
     }
