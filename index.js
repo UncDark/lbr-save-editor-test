@@ -239,6 +239,16 @@ const leaves = [
         img: "",
     },
     {
+        name: "Card Parts",
+        id: "card_parts",
+        img: "",
+    },
+    {
+        name: "Transcension Card Parts",
+        id: "transcension_card_parts",
+        img: "",
+    },
+    {
         name: "Shards",
         id: "shards",
         img: "",
@@ -273,6 +283,11 @@ const leaves = [
         id: "a<0x7A>urite",
         img: "",
     },
+    {
+        name: "Niobium Leaves",
+        id: "niobium",
+        img: "",
+    },
     {},
     {
         name: "Borbs",
@@ -302,6 +317,27 @@ const leaves = [
     {
         name: "Borb Ascension Rune",
         id: "borb_rune",
+        img: "",
+    },
+    {},
+    {
+        name: "Coal Diamond",
+        id: "diamond_coal",
+        img: "",
+    },
+    {
+        name: "Shiny Diamond",
+        id: "diamond_shiny",
+        img: "",
+    },
+    {
+        name: "Fuel",
+        id: "fuel",
+        img: "",
+    },
+    {
+        name: "Coal Time Sphere",
+        id: "coal_time_sphere",
         img: "",
     },
 ];
