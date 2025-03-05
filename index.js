@@ -1,4 +1,4 @@
-const leaves = [
+const currency = [
     {
         name: "Gems",
         id: "gems",
@@ -29,7 +29,8 @@ const leaves = [
         id: "mlc",
         img: "spr_mlc_0.png",
     },
-    {},
+];
+const leaves = [
     {
         name: "Normal",
         id: "leaves",
@@ -293,7 +294,8 @@ const leaves = [
         id: "niobium",
         img: "",
     },
-    {},
+];
+const borbventures = [
     {
         name: "Borbs",
         id: "borbs",
@@ -324,7 +326,8 @@ const leaves = [
         id: "borb_ascension_rune",
         img: "",
     },
-    {},
+];
+const mines = [
     {
         name: "Coal Diamond",
         id: "diamond_coal",
@@ -490,17 +493,16 @@ function processSave(currentSave) {
     document.getElementById("saveButton").hidden = false;
     document.getElementById("saveRawButton").hidden = false;
 }
+function resourceTablePrepare(title,id) {
+	let profile = currentSave.profiles[currentProfile];
 
-function createTables() {
-    let profile = currentSave.profiles[currentProfile];
-
-    let resourceTable = document.getElementById("resources");
+    let resourceTable = document.getElementById(title);
     while (resourceTable.firstChild) {
         resourceTable.removeChild(resourceTable.firstChild);
     }
-    resourceTable.appendChild(createRow("", "Resources", "Amount", "Unlocked"));
+    resourceTable.appendChild(createRow("", pretty(title), "Amount", "Unlocked"));
 
-    for (const leaf of leaves) {
+    for (const leaf of id) {
         if (!leaf.id) {
             let tr = document.createElement("tr");
             tr.style.lineHeight = "0.75em";
@@ -557,7 +559,78 @@ function createTables() {
 
         resourceTable.appendChild(createRow(img, label, amount, unlock));
     }
+}
+function createTables() {
+	let profile = currentSave.profiles[currentProfile];
+    /*let profile = currentSave.profiles[currentProfile];
 
+    let resourceTable = document.getElementById("resources");
+    while (resourceTable.firstChild) {
+        resourceTable.removeChild(resourceTable.firstChild);
+    }
+    resourceTable.appendChild(createRow("", "Resources", "Amount", "Unlocked"));
+
+    for (const leaf of currency) {
+        if (!leaf.id) {
+            let tr = document.createElement("tr");
+            tr.style.lineHeight = "0.75em";
+            tr.style.columnSpan = "4";
+            tr.innerHTML = "&nbsp;";
+            resourceTable.appendChild(tr); // empty row
+            continue;
+        }
+
+        let item = profile.resources[leaf.id];
+
+        if (!item) {
+            profile.resources[leaf.id] = item = {
+                collected: 0,
+                collected_total: 0,
+                count: 0,
+                level: 0, // ???
+                unlocked: 0,
+                unlocked_fruit: 0,
+            };
+            leaf.name += " (new)";
+        }
+
+        let img = document.createElement("img");
+        if (leaf.img) {
+            img.src = `./img/${leaf.img}`;
+        }
+
+        let label = document.createElement("label");
+        label.innerText = leaf.name;
+
+        let amount = document.createElement("input");
+        amount.setAttribute("type", "number");
+        amount.value = item.count;
+        amount.disabled = !item.unlocked;
+
+        amount.addEventListener("change", () => {
+            let value = amount.valueAsNumber;
+
+            let change = value - item.count;
+
+            item.count = value;
+            item.collected += change;
+            item.collected_total += change;
+        });
+
+        let unlock = document.createElement("input");
+        unlock.type = "checkbox";
+        unlock.checked = item.unlocked;
+        unlock.addEventListener("input", () => {
+            amount.disabled = !unlock.checked;
+            item.unlocked = unlock.checked;
+        });
+
+        resourceTable.appendChild(createRow(img, label, amount, unlock));
+    }*/
+	resourceTablePrepare("resources",currency)
+	resourceTablePrepare("leaves",leaves)
+	resourceTablePrepare("borbventures",borbventures)
+	resourceTablePrepare("mines",mines)
     let artifactTable = document.getElementById("artifacts");
     while (artifactTable.firstChild) {
         artifactTable.removeChild(artifactTable.firstChild);
