@@ -37,7 +37,7 @@ body {font-family: Arial;}
 </style>
 
 <script>
-function openTab(evt, content) {
+/*function openTab(evt, content) {
   var i, tabcontent, tablink;
   /*
   resources = document.getElementsById("resources")
@@ -48,7 +48,7 @@ function openTab(evt, content) {
   equipment = document.getElementsById("equipment")
   borbventure = document.getElementsByClassId("borbventure");
   */
-  tabcontent = document.getElementsByClassName("content");
+  /*tabcontent = document.getElementsByClassName("content");
   for (i = 0; i < tabcontent.length; i++) {
     tabcontent[i].style.display = "none";
   if (content == 'all') {
@@ -61,6 +61,43 @@ function openTab(evt, content) {
   }
   if (content != 'all') { 
     document.getElementById(content).style.display = "block";
+  }
+  evt.currentTarget.className += " active";
+
+}*/
+function openTab(evt, content) {
+  var i, tabcontent, tablink;
+  /*
+  resources = document.getElementsById("resources")
+  artifacts = document.getElementsById("artifacts")
+  chests = document.getElementsById("chests")
+  materials = document.getElementsById("materials")
+  scrolls = document.getElementsById("scrolls")
+  equipment = document.getElementsById("equipment")
+  borbventure = document.getElementsByClassId("borbventure");
+  */
+  contents = document.getElementsByClassName("content");
+  for (i = 0; i < contents.length; i++) {
+    contents[i].style.display = "none";
+	if (content == 'all') {
+		contents[i].style.display = "block";
+	}
+  }
+  tablink = document.getElementsByClassName("tablink");
+  for (i = 0; i < tablink.length; i++) {
+    tablink[i].className = tablink[i].className.replace(" active", "");
+  }
+  if (content != 'all') { 
+	category = document.getElementById(content)
+    category.style.display = "block";
+	tabcontent = category.getElementsByClassName("content")
+	for (i = 0; i < tabcontent.length; i++) {
+		tabcontent[i].style.display = "block";
+	}
+  }
+  if (content == 'borbventure') {
+	document.getElementById("borbventures").style.display = "block";
+	document.getElementById("main_resources").style.display = "block";
   }
   evt.currentTarget.className += " active";
 
@@ -120,7 +157,7 @@ function openTab(evt, content) {
                 Revolution</a> game.
             It is not affiliated with the game or its developer. <b>Using this tool in multiplayer modes may result in a ban.</b>
             Do NOT use this tool in multiplayer mode. You have been warned. We are NOT responsible for any actions taken onto your account.</c>
-            Current version : 1.2.5</d>
+            Current version : 1.2.6</d>
         </p>
         <h2>How to use</h2>
         <p>
@@ -146,7 +183,7 @@ function openTab(evt, content) {
 
             <div class="tab">
             <button class="tablink" onclick="openTab(event, 'all')">All</button>
-            <button class="tablink" onclick="openTab(event, 'resources')">Resources</button>
+            <button class="tablink" onclick="openTab(event, 'main_resources')">Resources</button>
             <button class="tablink" onclick="openTab(event, 'artifacts')">Artifacts</button>
             <button class="tablink" onclick="openTab(event, 'chests')">Chests</button>
             <button class="tablink" onclick="openTab(event, 'materials')">Materials</button>
@@ -157,10 +194,13 @@ function openTab(evt, content) {
         </div>
     <!--<div id="all" class="tabcontent">-->
         <div id="data">
-            <div style="margin-right: 1.5em">
-              <div id="main_resources" class="category">
+            <div id="main_resources" class="category" style="margin-right: 1.5em">
+              <!--<div id="main_resources" class="category">-->
                 <table class="content" id="resources" style="display: none"></table>
-              </div>
+				        <table class="content" id="leaves" style="display: none"></table>
+				        <table class="content" id="borbventures" style="display: none"></table>
+				        <table class="content" id="mines" style="display: none"></table>
+              <!--</div>-->
             </div>
             <div style="margin-right: 1.5em">
                 <table class="content" id="artifacts" style="display: none"></table>
