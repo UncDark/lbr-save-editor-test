@@ -99,6 +99,10 @@ function openTab(evt, content) {
 	document.getElementById("borbventures").style.display = "block";
 	document.getElementById("main_resources").style.display = "block";
   }
+  if (content == 'mine') {
+	document.getElementById("mines").style.display = "block";
+	document.getElementById("main_resources").style.display = "block";
+  }
   evt.currentTarget.className += " active";
 
 }
@@ -190,6 +194,7 @@ function openTab(evt, content) {
             <button class="tablink" onclick="openTab(event, 'scrolls')">Scrolls</button>
             <button class="tablink" onclick="openTab(event, 'equipment')">Equipment</button>
             <button class="tablink" onclick="openTab(event, 'borbventure')">Borbventure</button>
+	    <button class="tablink" onclick="openTab(event, 'mine')">Mines</button>
             <button class="tablink" onclick="openTab(event, 'crafted_leaves')">Crafted Leaves</button>
         </div>
     <!--<div id="all" class="tabcontent">-->
@@ -197,9 +202,9 @@ function openTab(evt, content) {
             <div id="main_resources" class="category" style="margin-right: 1.5em">
               <!--<div id="main_resources" class="category">-->
                 <table class="content" id="resources" style="display: none"></table>
-				        <table class="content" id="leaves" style="display: none"></table>
-				        <table class="content" id="borbventures" style="display: none"></table>
-				        <table class="content" id="mines" style="display: none"></table>
+		<table class="content" id="leaves" style="display: none"></table>
+		<table class="content" id="borbventures" style="display: none"></table>
+		<table class="content" id="mines" style="display: none"></table>
               <!--</div>-->
             </div>
             <div style="margin-right: 1.5em">
@@ -215,6 +220,8 @@ function openTab(evt, content) {
                 <table class="content" id="equipment" style="display: none"></table>
                 <br>
                 <table class="content" id="borbventure" style="display: none"></table>
+		<br>
+		<table class="content" id="mine" style="display: none"></table>
                 <!--table id="relics"></table-->
             </div>
             <div style="margin-right: 1.5em">
