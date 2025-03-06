@@ -151,6 +151,21 @@ const leaves = [
         id: "coal",
         img: "",
     },
+	{
+        name: "Empty Soul Leaves",
+        id: "soul_empty",
+        img: "",
+    },
+	{
+        name: "Soul Leaves",
+        id: "soul",
+        img: "",
+    },
+	{
+        name: "Quark Leaves",
+        id: "quark",
+        img: "",
+    },
     {},
     {
         name: "Amber",
@@ -536,6 +551,33 @@ const natures = [
         img: "",
     },
 ];
+const souls = [
+    {
+        name: "Soul Stone",
+        id: "soul_stones",
+        img: "",
+    },
+    {
+        name: "Soul Key",
+        id: "soul_keys",
+        img: "",
+    },
+    {
+        name: "Soul Particle",
+        id: "soul_particles",
+        img: "",
+    },
+    {
+        name: "Soul Entity",
+        id: "soul_entities",
+        img: "",
+    },
+	{
+        name: "Soul Flask",
+        id: "soul_flask",
+        img: "",
+    },
+];
 
 let currentSave;
 let currentProfile;
@@ -819,6 +861,7 @@ function createTables() {
 	resourceTablePrepare("borbventures",borbventures)
 	resourceTablePrepare("mines",mines)
 	resourceTablePrepare("natures",natures)
+	resourceTablePrepare("souls",souls)
     let artifactTable = document.getElementById("artifacts");
     while (artifactTable.firstChild) {
         artifactTable.removeChild(artifactTable.firstChild);
@@ -921,7 +964,7 @@ function createTables() {
     createAmountTable("scrolls", "Scroll Type", profile.scrolls, true);
     createAmountTable("equipment", "Equipment", profile.equipment, false);
     createAmountTableSpecial("borbventure", "Borbventure Inventory", profile.borbventure.inventory, false);
-    createAmountTableSpecial("mine", "Mine Inventory", profile.mine_inventory, false);
+	createAmountTableSpecial("mine", "Mine Inventory", profile.mine_inventory, false);
     loadCraftedLeaves(profile);
     // createAmountTable("relics", "Relic", profile.relics); too long
 }
