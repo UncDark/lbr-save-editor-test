@@ -349,6 +349,193 @@ const mines = [
         img: "",
     },
 ];
+const natures = [
+    {
+        name: "Nature Gems",
+        id: "nature_gems",
+        img: "",
+    },
+	{
+        name: "Magic Mulch",
+        id: "magic_mulch",
+        img: "",
+    },
+    {
+        name: "Nature Time Sphere",
+        id: "nature_time_sphere",
+        img: "",
+    },
+    {
+        name: "3-Leaf Clover",
+        id: "clover_basic3",
+        img: "",
+    },
+    {
+        name: "4-Leaf Clover",
+        id: "clover_basic4",
+        img: "",
+    },
+	{
+        name: "Aster(Plant)",
+        id: "plant_aster",
+        img: "",
+    },
+    {
+        name: "Camomile(Plant)",
+        id: "plant_camomile",
+        img: "",
+    },
+    {
+        name: "Cornflower(Plant)",
+        id: "plant_cornflower",
+        img: "",
+    },
+    {
+        name: "Daffodil(Plant)",
+        id: "plant_daffodil",
+        img: "",
+    },
+	{
+        name: "Dame(Plant)",
+        id: "plant_dame",
+        img: "",
+    },
+    {
+        name: "Dandelion(Plant)",
+        id: "plant_dandelion",
+        img: "",
+    },
+    {
+        name: "Forget-Me-Not(Plant)",
+        id: "plant_forgetmenot",
+        img: "",
+    },
+    {
+        name: "Hibiscus(Plant)",
+        id: "plant_hibiscus",
+        img: "",
+	},
+	{
+        name: "Hyacinth(Plant)",
+        id: "plant_hyacinth",
+        img: "",
+    },
+    {
+        name: "Lily(Plant)",
+        id: "plant_lily",
+        img: "",
+    },
+    {
+        name: "Marigold(Plant)",
+        id: "plant_marigold",
+        img: "",
+    },
+    {
+        name: "Pansy(Plant)",
+        id: "plant_pansy",
+        img: "",
+	},
+	{
+        name: "Poppy(Plant)",
+        id: "plant_poppy",
+        img: "",
+    },
+    {
+        name: "Primula(Plant)",
+        id: "plant_primula",
+        img: "",
+    },
+    {
+        name: "Rose(Plant)",
+        id: "plant_rose",
+        img: "",
+    },
+    {
+        name: "Tulip(Plant)",
+        id: "plant_tulip",
+        img: "",
+    },
+	{
+        name: "Auroraflit(Butterfly)",
+        id: "butterfly_auroraflit",
+        img: "",
+    },
+    {
+        name: "Blossomhaze(Butterfly)",
+        id: "butterfly_blossomhaze",
+        img: "",
+    },
+    {
+        name: "Citrineshine(Butterfly)",
+        id: "butterfly_citrineshine",
+        img: "",
+    },
+    {
+        name: "Crystalvale(Butterfly)",
+        id: "butterfly_crystalvale",
+        img: "",
+    },
+	{
+        name: "Duskmoth(Butterfly)",
+        id: "butterfly_duskmoth",
+        img: "",
+    },
+    {
+        name: "Emberglide(Butterfly)",
+        id: "butterfly_emberglide",
+        img: "",
+    },
+    {
+        name: "Meadowdance(Butterfly)",
+        id: "butterfly_meadowdance",
+        img: "",
+    },
+    {
+        name: "Moonbloom(Butterfly)",
+        id: "butterfly_moonbloom",
+        img: "",
+	},
+	{
+        name: "Oceaniclash(Butterfly)",
+        id: "butterfly_oceaniclash",
+        img: "",
+    },
+    {
+        name: "Prismwing(Butterfly)",
+        id: "butterfly_prismwing",
+        img: "",
+    },
+    {
+        name: "Radiantwing(Butterfly)",
+        id: "butterfly_radiantwing",
+        img: "",
+    },
+    {
+        name: "Serenewisp(Butterfly)",
+        id: "butterfly_serenewisp",
+        img: "",
+	},
+	{
+        name: "Soulwing(Butterfly)",
+        id: "butterfly_soulwing",
+        img: "",
+    },
+    {
+        name: "Starlance(Butterfly)",
+        id: "butterfly_starlance",
+        img: "",
+    },
+    {
+        name: "Sunspark(Butterfly)",
+        id: "butterfly_sunspark",
+        img: "",
+    },
+    {
+        name: "Twilightglow(Butterfly)",
+        id: "butterfly_twilightglow",
+        img: "",
+    },
+];
 
 let currentSave;
 let currentProfile;
@@ -631,6 +818,7 @@ function createTables() {
 	resourceTablePrepare("leaves",leaves)
 	resourceTablePrepare("borbventures",borbventures)
 	resourceTablePrepare("mines",mines)
+	resourceTablePrepare("natures",natures)
     let artifactTable = document.getElementById("artifacts");
     while (artifactTable.firstChild) {
         artifactTable.removeChild(artifactTable.firstChild);
