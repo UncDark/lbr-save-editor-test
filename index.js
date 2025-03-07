@@ -1192,10 +1192,10 @@ function createAmountTableSpecial(id, title, data, doUnlocks) {
 		amount.value = item;
 
 		//if (doUnlocks) amount.disabled = !item.unlocked;
-
+		let tempXP = 0;
 		amount.addEventListener("change", () => {
 			let value = amount.valueAsNumber;
-			let tempXP = 0;
+			
 			let finalXP = 0;
 			let change = value - data.level;
 
@@ -1211,6 +1211,7 @@ function createAmountTableSpecial(id, title, data, doUnlocks) {
 				data.xp_total = finalXP;
 			} else {
 				data.xp += tempXP;
+				tempXP = 0;
 				data.xp_total = finalXP + currentXP;
 			}
 			
