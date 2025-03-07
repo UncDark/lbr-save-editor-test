@@ -965,6 +965,7 @@ function createTables() {
     createAmountTable("equipment", "Equipment", profile.equipment, false);
     createAmountTableSpecial("borbventure", "Borbventure Inventory", profile.borbventure.inventory, false);
 	createAmountTableSpecial("mine", "Mine Inventory", profile.mine_inventory, false);
+	createAmountTableSpecial("nature_event", "Nature Season Tiers", profile.objects.o_game.data.nature_season, false);
     loadCraftedLeaves(profile);
     // createAmountTable("relics", "Relic", profile.relics); too long
 }
@@ -1127,48 +1128,107 @@ function createAmountTable(id, title, data, doUnlocks) {
 }
 
 function createAmountTableSpecial(id, title, data, doUnlocks) {
-    let table = document.getElementById(id);
-    while (table.firstChild) {
-        table.removeChild(table.firstChild);
-    }
+	if (id != "nature_event") {
+		let table = document.getElementById(id);
+		while (table.firstChild) {
+			table.removeChild(table.firstChild);
+		}
 
-    if (doUnlocks)
-        table.appendChild(createRow(title, "Amount", "Unlocked"));
-    else
-        table.appendChild(createRow(title, "Amount"));
+		if (doUnlocks)
+			table.appendChild(createRow(title, "Amount", "Unlocked"));
+		else
+			table.appendChild(createRow(title, "Amount"));
 
-    for (const key in data) {
-        let item = data[key];
+		for (const key in data) {
+			let item = data[key];
 
-        let amount = document.createElement("input");
-        amount.setAttribute("type", "number");
-        amount.value = item.count;
+			let amount = document.createElement("input");
+			amount.setAttribute("type", "number");
+			amount.value = item.count;
 
-        if (doUnlocks) amount.disabled = !item.unlocked;
+			if (doUnlocks) amount.disabled = !item.unlocked;
 
-        amount.addEventListener("change", () => {
-            let value = amount.valueAsNumber;
+			amount.addEventListener("change", () => {
+				let value = amount.valueAsNumber;
 
-            let change = value - item.count;
+				let change = value - item.count;
 
-            item.count = value;
-            item.collected += change;
-            item.collected_total += change;
-        });
+				item.count = value;
+				item.collected += change;
+				item.collected_total += change;
+			});
 
-        let unlock = document.createElement("input");
-        unlock.type = "checkbox";
-        unlock.checked = item.unlocked;
-        unlock.addEventListener("input", () => {
-            amount.disabled = !unlock.checked;
-            item.unlocked = unlock.checked;
-        });
+			let unlock = document.createElement("input");
+			unlock.type = "checkbox";
+			unlock.checked = item.unlocked;
+			unlock.addEventListener("input", () => {
+				amount.disabled = !unlock.checked;
+				item.unlocked = unlock.checked;
+			});
 
-        if (doUnlocks)
-            table.appendChild(createRow(pretty(item.type_key)+"("+pretty(item.rarity_key)+")", amount, unlock));
-        else
-            table.appendChild(createRow(pretty(item.type_key)+"("+pretty(item.rarity_key)+")", amount));
-    }
+			if (doUnlocks)
+				table.appendChild(createRow(pretty(item.type_key)+"("+pretty(item.rarity_key)+")", amount, unlock));
+			else
+				table.appendChild(createRow(pretty(item.type_key)+"("+pretty(item.rarity_key)+")", amount));
+		}
+		return
+	}
+	let table = document.getElementById(id);
+		while (table.firstChild) {
+			table.removeChild(table.firstChild);
+		}
+
+		if (doUnlocks)
+			table.appendChild(createRow(title, "Amount", "Unlocked"));
+		else
+			table.appendChild(createRow(title, "Amount"));
+
+		let item = data["level"];
+		let currentXP = data["xp"];
+		let totalXP = data["xp_total"];
+
+		let amount = document.createElement("input");
+		amount.setAttribute("type", "number");
+		amount.value = item;
+
+		//if (doUnlocks) amount.disabled = !item.unlocked;
+
+		amount.addEventListener("change", () => {
+			let value = amount.valueAsNumber;
+			let tempXP = 0;
+			let finalXP = 0;
+			let change = value - data.level;
+
+			data.level = value;
+			for (i = 0; i < value; i++) {
+				let xpRequired = 3 + i**2;
+				finalXP += xpRequired
+			}
+
+			if (value >= 100 && tempXP == 0) {
+				tempXP = currentXP;
+				data.xp = 0;
+				data.xp_total = finalXP;
+			} else {
+				data.xp += tempXP;
+				data.xp_total = finalXP + currentXP;
+			}
+			
+		});
+
+		let unlock = document.createElement("input");
+		unlock.type = "checkbox";
+		unlock.checked = item.unlocked;
+		unlock.addEventListener("input", () => {
+			amount.disabled = !unlock.checked;
+			item.unlocked = unlock.checked;
+		});
+
+		if (doUnlocks)
+			table.appendChild(createRow("Tier(Min 0 ; Max 100)", amount, unlock));
+		else
+			table.appendChild(createRow("Tier(Min 0 ; Max 100)", amount));
+		
 }
 
 function loadDat(data) {
