@@ -966,8 +966,9 @@ function createTables() {
     createAmountTableSpecial("borbventure", "Borbventure Inventory", profile.borbventure.inventory, false);
 	createAmountTableSpecial("mine", "Mine Inventory", profile.mine_inventory, false);
 	createAmountTableSpecial("nature_event", "Nature Season Tiers", profile.objects.o_game.data.nature_season, false);
+	createAmountTableSpecial("cards", "Cards", profile.cards, false);
     loadCraftedLeaves(profile);
-    // createAmountTable("relics", "Relic", profile.relics); too long
+    createAmountTableSpecial("relics", "Relic", profile.relics, true); //too long
 }
 
 function loadCraftedLeaves(profile) {
@@ -1126,10 +1127,248 @@ function createAmountTable(id, title, data, doUnlocks) {
             table.appendChild(createRow(pretty(key), amount));
     }
 }
+/*function tableInitialize(id, title, data, doUnlocks) {
+	let table = document.getElementById(id);
+		while (table.firstChild) {
+			table.removeChild(table.firstChild);
+		}
 
-function createAmountTableSpecial(id, title, data, doUnlocks) {
-	if (id != "nature_event") {
+	if (doUnlocks)
+		table.appendChild(createRow(title, "Amount", "Unlocked"));
+	else
+		table.appendChild(createRow(title, "Amount"));
+	
+	for (const key in data) {
+		item = data[key]
+		let amount = document.createElement("input");
+			amount.setAttribute("type", "number");
+			amount.value = item.count;
+
+			if (doUnlocks) amount.disabled = !item.unlocked;
+
+			amount.addEventListener("change", () => {
+				let value = amount.valueAsNumber;
+
+				let change = value - item.count;
+
+				item.count = value;
+				item.collected += change;
+				item.collected_total += change;
+			});
+
+			let unlock = document.createElement("input");
+			unlock.type = "checkbox";
+			unlock.checked = item.unlocked;
+			unlock.addEventListener("input", () => {
+				amount.disabled = !unlock.checked;
+				item.unlocked = unlock.checked;
+			});
+
+			if (doUnlocks)
+				table.appendChild(pretty(item), amount, unlock));
+			else
+				table.appendChild(createRow(pretty(item.type_key)+"("+pretty(item.rarity_key)+")", amount));
+	}
+}*/
+function rarityCheck(key, rarity, table, bosses, data) {
+	let names = key.split("_")
+	let rarity_key = names[0]
+	let type_key = ""
+	for (i=1; i < names.length; i++) {
+		type_key = type_key.concat(names[i], "_")
+	}
+	if (type_key.at(type_key.length-1) == "_") {
+		type_key = type_key.slice(0, type_key.length-1)
+	}
+	if (key.startsWith(rarity) == true && key.includes("boss") != true) {
+		let temptable = {id:key, count:data[key].count, collected:data[key].collected, unlocked:data[key].unlocked, type_key:type_key, rarity_key:rarity_key};
+		table.push(temptable);
+	}
+	if (key.includes("boss") == true) {
+		let temptable = {id:key, count:data[key].count, collected:data[key].collected, unlocked:data[key].unlocked, type_key:type_key, rarity_key:rarity_key};
+		//console.log(bosses)
+		if (bosses.includes(temptable) == false) {
+			//Object.defineProperty(bosses, key, {value:temptable});
+		}
+	}
+	//console.log(bosses)
+}
+function createAmountTableSpecial(id, title, data, doUnlocks, origin) {
+	if (id != "nature_event" && id != "cards" && id != "relics") {
 		let table = document.getElementById(id);
+		while (table.firstChild) {
+			table.removeChild(table.firstChild);
+		}
+		//if (id == "cards_common" || id == "cards_uncommon" || id == "cards_rare" || id == "cards_epic" || id == "cards_mythical" || id == "cards_legendary" || id == "cards_boss") {
+			
+		//}
+		if (doUnlocks)
+			table.appendChild(createRow(title, "Amount", "Unlocked"));
+		else
+			table.appendChild(createRow(title, "Amount"));
+
+		for (const key in data) {
+			if (id.includes("cards") == true || id.includes("relics") == true) {
+				let item = data[key];
+				let card = origin[item.id]
+				
+				let amount = document.createElement("input");
+				amount.setAttribute("type", "number");
+				amount.value = card.count;
+
+				if (doUnlocks) amount.disabled = !card.unlocked;
+
+				amount.addEventListener("change", () => {
+					let value = amount.valueAsNumber;
+
+					let change = value - card.count;
+
+					card.count = value;
+					card.collected += change;
+					//card.collected_total += change;
+				});
+
+				let unlock = document.createElement("input");
+				unlock.type = "checkbox";
+				unlock.checked = card.unlocked;
+				unlock.addEventListener("input", () => {
+					amount.disabled = !unlock.checked;
+					card.unlocked = unlock.checked;
+				});
+
+				if (doUnlocks /*&& id.includes("relics") != true*/) {
+				//console.log(item.type_key); // Number of transcended leaves is disabled as unable to find data of it
+				//console.log(pretty("test_"));
+					table.appendChild(createRow(pretty(item.type_key)+"("+pretty(item.rarity_key)+")", amount, unlock));
+				//} else if (doUnlocks && id.includes("relics") == true) {
+					//table.appendChild(createRow(pretty(item.type_key)+"("+pretty(item.rarity_key)+")", amount, unlock));
+				} else {
+					table.appendChild(createRow(pretty(item.type_key)+"("+pretty(item.rarity_key)+")", amount));
+				}
+			//return
+			}
+			if (id.includes("cards") != true && id.includes("relics") != true) {
+				let item = data[key];
+
+				let amount = document.createElement("input");
+				amount.setAttribute("type", "number");
+				amount.value = item.count;
+
+				if (doUnlocks) amount.disabled = !item.unlocked;
+
+				amount.addEventListener("change", () => {
+					let value = amount.valueAsNumber;
+
+					let change = value - item.count;
+
+					item.count = value;
+					item.collected += change;
+					//item.collected_total += change;
+				});
+
+				let unlock = document.createElement("input");
+				unlock.type = "checkbox";
+				unlock.checked = item.unlocked;
+				unlock.addEventListener("input", () => {
+					amount.disabled = !unlock.checked;
+					item.unlocked = unlock.checked;
+				});
+
+				if (doUnlocks) {
+					//console.log(item.type_key);
+					//console.log(pretty("test_"));
+					table.appendChild(createRow(pretty(item.type_key)+"("+pretty(item.rarity_key)+")", amount, unlock));
+				} else {
+					table.appendChild(createRow(pretty(item.type_key)+"("+pretty(item.rarity_key)+")", amount));
+				}
+			//return
+			}
+		}
+		return
+	}
+	if (id == "cards" || id == "relics") {
+		let common = [];
+		let uncommon = [];
+		let rare = [];
+		let epic = [];
+		let mythical = [];
+		let legendary = [];
+		let bosses = [];
+		for (const key in data) {
+			let names = key.split("_")
+			let rarity_key = names[0]
+			let type_key = ""
+			for (i=1; i < names.length; i++) {
+				type_key = type_key.concat(names[i], "_")
+			}
+			if (type_key.at(type_key.length-1) == "_") {
+				type_key = type_key.slice(0, type_key.length-1)
+			}
+			if (id == "relics") {
+				type_key = type_key.concat("_","leaves")
+			}
+			if (key.startsWith("common") == true && key.includes("boss") != true) {
+				let temptable = {id:key, count:data[key].count, collected:data[key].collected, unlocked:data[key].unlocked, type_key:type_key, rarity_key:rarity_key};
+				common.push(temptable);
+			}
+			if (key.startsWith("uncommon") == true && key.includes("boss") != true) {
+				let temptable = {id:key, count:data[key].count, collected:data[key].collected, unlocked:data[key].unlocked, type_key:type_key, rarity_key:rarity_key};
+				uncommon.push(temptable);
+			}
+			if (key.startsWith("rare") == true && key.includes("boss") != true) {
+				let temptable = {id:key, count:data[key].count, collected:data[key].collected, unlocked:data[key].unlocked, type_key:type_key, rarity_key:rarity_key};
+				rare.push(temptable);
+			}
+			if (key.startsWith("epic") == true && key.includes("boss") != true) {
+				let temptable = {id:key, count:data[key].count, collected:data[key].collected, unlocked:data[key].unlocked, type_key:type_key, rarity_key:rarity_key};
+				epic.push(temptable);
+			}
+			if (key.startsWith("mythical") == true && key.includes("boss") != true) {
+				let temptable = {id:key, count:data[key].count, collected:data[key].collected, unlocked:data[key].unlocked, type_key:type_key, rarity_key:rarity_key};
+				mythical.push(temptable);
+			}
+			if (key.startsWith("legendary") == true && key.includes("boss") != true) {
+				let temptable = {id:key, count:data[key].count, collected:data[key].collected, unlocked:data[key].unlocked, type_key:type_key, rarity_key:rarity_key};
+				legendary.push(temptable);
+			}
+			if (key.includes("boss") == true) {
+				let temptable = {id:key, count:data[key].count, collected:data[key].collected, unlocked:data[key].unlocked, type_key:type_key, rarity_key:rarity_key};
+		//console.log(bosses)
+				//if (bosses.includes(temptable) == false) {
+			//Object.defineProperty(bosses, key, {value:temptable});
+				//}
+				bosses.push(temptable)
+			}
+			//item = data[key];
+			//let name = key
+			//console.log(key)
+			//rarityCheck(key, "common", common, bosses, data);
+			//rarityCheck(key, "uncommon", uncommon, bosses, data);
+			//rarityCheck(key, "rare", rare, bosses, data);
+			//rarityCheck(key, "epic", epic, bosses, data);
+			//rarityCheck(key, "mythical", mythical, bosses, data);
+			//rarityCheck(key, "legendary", legendary, bosses, data);
+		}
+		//console.log(legendary)
+		if (id == "cards") {
+			createAmountTableSpecial("cards_common", "Common Cards", common, true, data)
+			createAmountTableSpecial("cards_uncommon", "Uncommon Cards", uncommon, true, data)
+			createAmountTableSpecial("cards_rare", "Rare Cards", rare, true, data)
+			createAmountTableSpecial("cards_epic", "Epic Cards", epic, true, data)
+			createAmountTableSpecial("cards_mythical", "Mythical Cards", mythical, true, data)
+			createAmountTableSpecial("cards_legendary", "Legendary Cards", legendary, true, data)
+			createAmountTableSpecial("cards_boss", "Boss Cards", bosses, true, data)
+		}
+		if (id == "relics") {
+			createAmountTableSpecial("relics_common", "Common Relics", common, true, data)
+			createAmountTableSpecial("relics_uncommon", "Uncommon Relics", uncommon, true, data)
+			createAmountTableSpecial("relics_rare", "Rare Relics", rare, true, data)
+			createAmountTableSpecial("relics_epic", "Epic Relics", epic, true, data)
+			createAmountTableSpecial("relics_mythical", "Mythical Relics", mythical, true, data)
+			createAmountTableSpecial("relics_legendary", "Legendary Relics", legendary, true, data)
+		}
+		//return
+		/*let commontable = document.getElementById("cards_common");
 		while (table.firstChild) {
 			table.removeChild(table.firstChild);
 		}
@@ -1171,8 +1410,10 @@ function createAmountTableSpecial(id, title, data, doUnlocks) {
 			else
 				table.appendChild(createRow(pretty(item.type_key)+"("+pretty(item.rarity_key)+")", amount));
 		}
+		return */
 		return
 	}
+	if (data == "nature_event") {
 	let table = document.getElementById(id);
 		while (table.firstChild) {
 			table.removeChild(table.firstChild);
@@ -1192,10 +1433,10 @@ function createAmountTableSpecial(id, title, data, doUnlocks) {
 		amount.value = item;
 
 		//if (doUnlocks) amount.disabled = !item.unlocked;
-		let tempXP = 0;
+
 		amount.addEventListener("change", () => {
 			let value = amount.valueAsNumber;
-			
+			let tempXP = 0;
 			let finalXP = 0;
 			let change = value - data.level;
 
@@ -1211,7 +1452,6 @@ function createAmountTableSpecial(id, title, data, doUnlocks) {
 				data.xp_total = finalXP;
 			} else {
 				data.xp += tempXP;
-				tempXP = 0;
 				data.xp_total = finalXP + currentXP;
 			}
 			
@@ -1229,7 +1469,7 @@ function createAmountTableSpecial(id, title, data, doUnlocks) {
 			table.appendChild(createRow("Tier(Min 0 ; Max 100)", amount, unlock));
 		else
 			table.appendChild(createRow("Tier(Min 0 ; Max 100)", amount));
-		
+	}
 }
 
 function loadDat(data) {
