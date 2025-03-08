@@ -8,9 +8,7 @@ Credits to RedCrafter for the original file.
 
 You can find the editor [here](https://uncdark.github.io/lbr-save-editor-test/). 
 I'm not proficient in coding so please bear some incompetence of me.
-Currently done :
-    Borbventure
-    Mine resources
 
-To do :
-    Mine(Complete)
+Do note that transcended leaf counts are not supported yet.
+
+To do : Enemy Index
