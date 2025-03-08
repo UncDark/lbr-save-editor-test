@@ -758,8 +758,8 @@ function resourceTablePrepare(title,id) {
         let img = document.createElement("img");
         if (leaf.img) {
             img.src = `./img/${leaf.img}`;
-	    img.style.width = '16px';
-	    img.style.height = '16px';
+	    img.style.width = "16";
+	    img.style.height = "16";
         }
 
         let label = document.createElement("label");
