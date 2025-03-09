@@ -966,9 +966,10 @@ function createTables() {
     createAmountTable("scrolls", "Scroll Type", profile.scrolls, true);
     createAmountTable("equipment", "Equipment", profile.equipment, false);
     createAmountTableSpecial("borbventure", "Borbventure Inventory", profile.borbventure.inventory, false);
-	createAmountTableSpecial("mine", "Mine Inventory", profile.mine_inventory, false);
-	createAmountTableSpecial("nature_event", "Nature Season Tiers", profile.objects.o_game.data.nature_season, false);
-	createAmountTableSpecial("cards", "Cards", profile.cards, false);
+    createAmountTableSpecial("mine", "Mine Inventory", profile.mine_inventory, false);
+    createAmountTableSpecial("nature_event", "Nature Season Tiers", profile.objects.o_game.data.nature_season, false);
+    createAmountTableSpecial("cards", "Cards", profile.cards, false);
+    createAmountTableSpecial("enemies", "Enemy Index", profile.enemies, false);
     loadCraftedLeaves(profile);
     createAmountTableSpecial("relics", "Relic", profile.relics, true); //too long
 }
@@ -1196,21 +1197,103 @@ function rarityCheck(key, rarity, table, bosses, data) {
 	//console.log(bosses)
 }
 function createAmountTableSpecial(id, title, data, doUnlocks, origin) {
-	if (id != "nature_event" && id != "cards" && id != "relics") {
+	if (id != "nature_event" && id != "cards" && id != "relics" && id != "enemies") {
 		let table = document.getElementById(id);
 		while (table.firstChild) {
 			table.removeChild(table.firstChild);
 		}
-		//if (id == "cards_common" || id == "cards_uncommon" || id == "cards_rare" || id == "cards_epic" || id == "cards_mythical" || id == "cards_legendary" || id == "cards_boss") {
-			
-		//}
 		if (doUnlocks)
 			table.appendChild(createRow(title, "Amount", "Unlocked"));
 		else
-			table.appendChild(createRow(title, "Amount"));
+			table.appendChild(createRow(title, "Amount")); // Initialize the table
+			
+		//if (id == "cards_common" || id == "cards_uncommon" || id == "cards_rare" || id == "cards_epic" || id == "cards_mythical" || id == "cards_legendary" || id == "cards_boss") {
+			
+		//}
+		if (id.includes("enemy") == true) { //Checking for enemy tag
+			for (const key in data) {
+				let item = data[key];
+				let card = origin[item]
+				
+				let amount = document.createElement("input");
+				amount.setAttribute("type", "number");
+				amount.value = card.defeated;
 
-		for (const key in data) {
-			if (id.includes("cards") == true || id.includes("relics") == true) {
+				if (doUnlocks) amount.disabled = !card.seen;
+
+				amount.addEventListener("change", () => {
+					let value = amount.valueAsNumber;
+
+					let change = value - card.defeated;
+
+					card.defeated = value;
+					card.defeat_counter += change;
+					card.defeat_counter_highest += change;
+					card.defeated_run += change;
+				});
+
+				let unlock = document.createElement("input");
+				unlock.type = "checkbox";
+				unlock.checked = card.seen;
+				unlock.addEventListener("input", () => {
+					amount.disabled = !unlock.checked;
+					card.seen = unlock.checked;
+				});
+
+				if (doUnlocks) {
+					table.appendChild(createRow(pretty(item), amount, unlock));
+				} else {
+					table.appendChild(createRow(pretty(item), amount));
+				}
+			}
+		return
+		}
+
+		if (id.includes("cards") != true && id.includes("relics") != true && id.includes("enemy") != true) { //Checking for normal ones
+			for (const key in data) {
+				let item = data[key];
+
+				let amount = document.createElement("input");
+				amount.setAttribute("type", "number");
+				amount.value = item.count;
+			
+				if (doUnlocks) amount.disabled = !item.unlocked;
+			
+				amount.addEventListener("change", () => {
+					let value = amount.valueAsNumber;
+
+					let change = value - item.count;
+
+					item.count = value;
+					item.collected += change;
+					//item.collected_total += change;
+				});
+
+				let unlock = document.createElement("input");
+				unlock.type = "checkbox";
+				unlock.checked = item.unlocked;
+				unlock.addEventListener("input", () => {
+					amount.disabled = !unlock.checked;
+					item.unlocked = unlock.checked;
+				});
+
+				if (doUnlocks) {
+					table.appendChild(createRow(pretty(item.type_key)+"("+pretty(item.rarity_key)+")", amount, unlock));
+				} else {
+					table.appendChild(createRow(pretty(item.type_key)+"("+pretty(item.rarity_key)+")", amount));
+				}
+			//return
+			}
+		return
+		}
+
+		//if (doUnlocks)
+			//table.appendChild(createRow(title, "Amount", "Unlocked"));
+		//else
+			//table.appendChild(createRow(title, "Amount"));
+		if (id.includes("cards") == true || id.includes("relics") == true) { //Checking for relic or cards tag
+			for (const key in data) {
+			
 				let item = data[key];
 				let card = origin[item.id]
 				
@@ -1247,9 +1330,10 @@ function createAmountTableSpecial(id, title, data, doUnlocks, origin) {
 				} else {
 					table.appendChild(createRow(pretty(item.type_key)+"("+pretty(item.rarity_key)+")", amount));
 				}
-			//return
 			}
-			if (id.includes("cards") != true && id.includes("relics") != true) {
+		}
+		/*if (id.includes("cards") != true && id.includes("relics") != true) {
+			for (const key in data) {
 				let item = data[key];
 
 				let amount = document.createElement("input");
@@ -1285,8 +1369,9 @@ function createAmountTableSpecial(id, title, data, doUnlocks, origin) {
 				}
 			//return
 			}
-		}
 		return
+		}*/
+		
 	}
 	if (id == "cards" || id == "relics") {
 		let common = [];
@@ -1414,6 +1499,24 @@ function createAmountTableSpecial(id, title, data, doUnlocks, origin) {
 		}
 		return */
 		return
+	}
+	if (id == "enemies") {
+		let enemy = [];
+		let boss = [];
+		for (const key in data) {
+			if (key.startsWith("boss") == true) {
+				//let temptable = {id:key, count:data[key].count, collected:data[key].collected, unlocked:data[key].unlocked, type_key:type_key, rarity_key:rarity_key};
+				boss.push(key);
+			} else {
+				//let temptable = {id:key, count:data[key].count, collected:data[key].collected, unlocked:data[key].unlocked, type_key:type_key, rarity_key:rarity_key};
+				enemy.push(key);
+			}
+		}
+		//console.log(boss)
+		createAmountTableSpecial("enemy_normal", "Normal Enemies", enemy, true, data)
+		createAmountTableSpecial("enemy_boss", "Boss Enemies", boss, true, data)
+		
+	return
 	}
 	if (data == "nature_event") {
 	let table = document.getElementById(id);
