@@ -11,4 +11,4 @@ I'm not proficient in coding so please bear some incompetence of me.
 
 Do note that transcended leaf counts are not supported yet.
 
-To do : Enemy Index
+To do : Dice, Try to implement rarity changing, More straightfoward crafted leaves stat edit
