@@ -202,7 +202,7 @@ const leaves = [
         id: "tektite",
         img: "spr_leaf_tektite_0.png",
     },
-    {},
+	{},
     {
         name: "Red Science",
         id: "flask_red",
@@ -289,6 +289,8 @@ const leaves = [
         id: "transformation_shards",
         img: "",
     },
+];
+const dices = [
     {
         name: "Dice",
         id: "dice",
@@ -361,6 +363,28 @@ const mines = [
     {
         name: "Coal Time Sphere",
         id: "coal_time_sphere",
+        img: "",
+    },
+];
+const quarks = [
+    {
+        name: "Quantum Blob",
+        id: "quantum_blob",
+        img: "",
+    },
+    {
+        name: "Quark Blob",
+        id: "quark_blob",
+        img: "",
+    },
+    {
+        name: "Quark Structure",
+        id: "quark_structure",
+        img: "",
+    },
+    {
+        name: "Leafton",
+        id: "leafton",
         img: "",
     },
 ];
@@ -758,8 +782,8 @@ function resourceTablePrepare(title,id) {
         let img = document.createElement("img");
         if (leaf.img) {
             img.src = `./img/${leaf.img}`;
-	    img.width = 16;
-	    img.height = 16;
+			img.width =16;
+			img.height =16;
         }
 
         let label = document.createElement("label");
@@ -864,6 +888,8 @@ function createTables() {
 	resourceTablePrepare("mines",mines)
 	resourceTablePrepare("natures",natures)
 	resourceTablePrepare("souls",souls)
+	resourceTablePrepare("dices",dices)
+	resourceTablePrepare("quarks",quarks)
     let artifactTable = document.getElementById("artifacts");
     while (artifactTable.firstChild) {
         artifactTable.removeChild(artifactTable.firstChild);
@@ -966,12 +992,14 @@ function createTables() {
     createAmountTable("scrolls", "Scroll Type", profile.scrolls, true);
     createAmountTable("equipment", "Equipment", profile.equipment, false);
     createAmountTableSpecial("borbventure", "Borbventure Inventory", profile.borbventure.inventory, false);
-    createAmountTableSpecial("mine", "Mine Inventory", profile.mine_inventory, false);
-    createAmountTableSpecial("nature_event", "Nature Season Tiers", profile.objects.o_game.data.nature_season, false);
-    createAmountTableSpecial("cards", "Cards", profile.cards, false);
-    createAmountTableSpecial("enemies", "Enemy Index", profile.enemies, false);
+	createAmountTableSpecial("mine", "Mine Inventory", profile.mine_inventory, false);
+	createAmountTableSpecial("nature_event", "Nature Season Tiers", profile.objects.o_game.data.nature_season, false);
+	createAmountTableSpecial("cards", "Cards", profile.cards, false);
     loadCraftedLeaves(profile);
     createAmountTableSpecial("relics", "Relic", profile.relics, true); //too long
+	createAmountTableSpecial("enemies", "Enemy Index", profile.enemies, false);
+	createAmountTableSpecial("dice", "Dice", profile.dice, false);
+	createAmountTableSpecial("dice_backpack", "Dice Backpack", profile.dice_backpack, false);
 }
 
 function loadCraftedLeaves(profile) {
@@ -1202,10 +1230,12 @@ function createAmountTableSpecial(id, title, data, doUnlocks, origin) {
 		while (table.firstChild) {
 			table.removeChild(table.firstChild);
 		}
-		if (doUnlocks)
-			table.appendChild(createRow(title, "Amount", "Unlocked"));
-		else
-			table.appendChild(createRow(title, "Amount")); // Initialize the table
+		if (id.includes("dice") != true && id.includes("relics") != true) {
+			if (doUnlocks)
+				table.appendChild(createRow(title, "Amount", "Unlocked"));
+			else
+				table.appendChild(createRow(title, "Amount")); // Initialize the table
+		}
 			
 		//if (id == "cards_common" || id == "cards_uncommon" || id == "cards_rare" || id == "cards_epic" || id == "cards_mythical" || id == "cards_legendary" || id == "cards_boss") {
 			
@@ -1249,7 +1279,7 @@ function createAmountTableSpecial(id, title, data, doUnlocks, origin) {
 		return
 		}
 
-		if (id.includes("cards") != true && id.includes("relics") != true && id.includes("enemy") != true) { //Checking for normal ones
+		if (id.includes("cards") != true && id.includes("relics") != true && id.includes("enemy") != true && id.includes("dice") != true) { //Checking for normal ones
 			for (const key in data) {
 				let item = data[key];
 
@@ -1286,12 +1316,71 @@ function createAmountTableSpecial(id, title, data, doUnlocks, origin) {
 			}
 		return
 		}
+		if (id == "dice" || id == "dice_backpack") { //Checking for dice
+			//if (title.includes("backpack") != true) {
+			if (doUnlocks)
+				table.appendChild(createRow(title, "Rarity", "Amount", "Unlocked"));
+			else
+				table.appendChild(createRow(title, "Rarity", "Amount")); // Initialize the table for dice
+			//}
+			
+			for (const key in data) {
+				let item = data[key];
+
+				let amount = document.createElement("input");
+				amount.setAttribute("type", "number");
+				amount.value = item.count;
+				
+				let rarity = document.createElement("select");
+				let rarityTable = ["common","uncommon","rare","epic","mythical","legendary"]
+				for (const info in rarityTable) {	
+					let rarities = rarityTable[info]
+					let option = document.createElement("option")
+					option.value = rarities;
+					option.innerText = pretty(rarities);
+					rarity.appendChild(option)
+				}
+				rarity.value = item.rarity_key
+				
+				if (doUnlocks) amount.disabled = !item.unlocked;
+			
+				amount.addEventListener("change", () => {
+					let value = amount.valueAsNumber;
+
+					let change = value - item.count;
+
+					item.count = value;
+					//item.collected += change;
+					//item.collected_total += change;
+				});
+				rarity.addEventListener("change", () => {
+					let value = rarity.value;
+					item.rarity_key = value;
+				});
+
+				let unlock = document.createElement("input");
+				unlock.type = "checkbox";
+				unlock.checked = item.unlocked;
+				unlock.addEventListener("input", () => {
+					amount.disabled = !unlock.checked;
+					item.unlocked = unlock.checked;
+				});
+
+				if (doUnlocks) {
+					table.appendChild(createRow(pretty(item.type_key), rarity, amount, unlock));
+				} else {
+					table.appendChild(createRow(pretty(item.type_key), rarity, amount));
+				}
+			//return
+			}
+		return
+		}
 
 		//if (doUnlocks)
 			//table.appendChild(createRow(title, "Amount", "Unlocked"));
 		//else
 			//table.appendChild(createRow(title, "Amount"));
-		if (id.includes("cards") == true || id.includes("relics") == true) { //Checking for relic or cards tag
+		if (id.includes("cards") == true) { //Checking for cards tag
 			for (const key in data) {
 			
 				let item = data[key];
@@ -1323,12 +1412,74 @@ function createAmountTableSpecial(id, title, data, doUnlocks, origin) {
 
 				if (doUnlocks /*&& id.includes("relics") != true*/) {
 				//console.log(item.type_key); // Number of transcended leaves is disabled as unable to find data of it
-				//console.log(pretty("test_"));
 					table.appendChild(createRow(pretty(item.type_key)+"("+pretty(item.rarity_key)+")", amount, unlock));
 				//} else if (doUnlocks && id.includes("relics") == true) {
 					//table.appendChild(createRow(pretty(item.type_key)+"("+pretty(item.rarity_key)+")", amount, unlock));
 				} else {
 					table.appendChild(createRow(pretty(item.type_key)+"("+pretty(item.rarity_key)+")", amount));
+				}
+			}
+		}
+		if (id.includes("relics") == true) { //Checking for relic tag
+			let profile = currentSave.profiles[currentProfile];
+			let leaves = profile.resources
+			if (doUnlocks)
+				table.appendChild(createRow(title, "Amount", "Leaves", "Unlocked"));
+			else
+				table.appendChild(createRow(title, "Amount", "Leaves")); // Initialize the table for relics
+			for (const key in data) {
+			
+				let item = data[key];
+				let leaf = leaves[item.type]
+				let card = origin[item.id]
+				let rarityTable = ["common","uncommon","rare","epic","mythical","legendary"]
+				let leafIndex = rarityTable.indexOf(item.rarity_key) + 1
+				
+				let amount = document.createElement("input");
+				amount.setAttribute("type", "number");
+				amount.value = card.count;
+				
+				let leafCount = document.createElement("input");
+				leafCount.setAttribute("type", "number");
+				leafCount.value = leaf.leafscend_count[leafIndex];
+
+				if (doUnlocks) amount.disabled = !card.unlocked;
+
+				amount.addEventListener("change", () => {
+					let value = amount.valueAsNumber;
+
+					let change = value - card.count;
+
+					card.count = value;
+					card.collected += change;
+					//card.collected_total += change;
+				});
+				
+				leafCount.addEventListener("change", () => {
+					let value = leafCount.valueAsNumber;
+
+					let change = value - leaf.leafscend_count[leafIndex];
+
+					leaf.leafscend_count[leafIndex] = value;
+					leaf.leafscend_collected[leafIndex] += change;
+					leaf.leafscend_collected_total[leafIndex] += change;
+				});
+				
+				let unlock = document.createElement("input");
+				unlock.type = "checkbox";
+				unlock.checked = card.unlocked;
+				unlock.addEventListener("input", () => {
+					amount.disabled = !unlock.checked;
+					card.unlocked = unlock.checked;
+				});
+
+				if (doUnlocks /*&& id.includes("relics") != true*/) {
+				//console.log(item.type_key);
+					table.appendChild(createRow(pretty(item.type_key)+"("+pretty(item.rarity_key)+")", amount, leafCount, unlock));
+				//} else if (doUnlocks && id.includes("relics") == true) {
+					//table.appendChild(createRow(pretty(item.type_key)+"("+pretty(item.rarity_key)+")", amount, unlock));
+				} else {
+					table.appendChild(createRow(pretty(item.type_key)+"("+pretty(item.rarity_key)+")", amount, leafCount));
 				}
 			}
 		}
@@ -1385,6 +1536,7 @@ function createAmountTableSpecial(id, title, data, doUnlocks, origin) {
 			let names = key.split("_")
 			let rarity_key = names[0]
 			let type_key = ""
+			let type = ""
 			for (i=1; i < names.length; i++) {
 				type_key = type_key.concat(names[i], "_")
 			}
@@ -1392,30 +1544,31 @@ function createAmountTableSpecial(id, title, data, doUnlocks, origin) {
 				type_key = type_key.slice(0, type_key.length-1)
 			}
 			if (id == "relics") {
+				type = type_key
 				type_key = type_key.concat("_","leaves")
 			}
 			if (key.startsWith("common") == true && key.includes("boss") != true) {
-				let temptable = {id:key, count:data[key].count, collected:data[key].collected, unlocked:data[key].unlocked, type_key:type_key, rarity_key:rarity_key};
+				let temptable = {id:key, count:data[key].count, collected:data[key].collected, unlocked:data[key].unlocked, type_key:type_key, rarity_key:rarity_key, type:type};
 				common.push(temptable);
 			}
 			if (key.startsWith("uncommon") == true && key.includes("boss") != true) {
-				let temptable = {id:key, count:data[key].count, collected:data[key].collected, unlocked:data[key].unlocked, type_key:type_key, rarity_key:rarity_key};
+				let temptable = {id:key, count:data[key].count, collected:data[key].collected, unlocked:data[key].unlocked, type_key:type_key, rarity_key:rarity_key, type:type};
 				uncommon.push(temptable);
 			}
 			if (key.startsWith("rare") == true && key.includes("boss") != true) {
-				let temptable = {id:key, count:data[key].count, collected:data[key].collected, unlocked:data[key].unlocked, type_key:type_key, rarity_key:rarity_key};
+				let temptable = {id:key, count:data[key].count, collected:data[key].collected, unlocked:data[key].unlocked, type_key:type_key, rarity_key:rarity_key, type:type};
 				rare.push(temptable);
 			}
 			if (key.startsWith("epic") == true && key.includes("boss") != true) {
-				let temptable = {id:key, count:data[key].count, collected:data[key].collected, unlocked:data[key].unlocked, type_key:type_key, rarity_key:rarity_key};
+				let temptable = {id:key, count:data[key].count, collected:data[key].collected, unlocked:data[key].unlocked, type_key:type_key, rarity_key:rarity_key, type:type};
 				epic.push(temptable);
 			}
 			if (key.startsWith("mythical") == true && key.includes("boss") != true) {
-				let temptable = {id:key, count:data[key].count, collected:data[key].collected, unlocked:data[key].unlocked, type_key:type_key, rarity_key:rarity_key};
+				let temptable = {id:key, count:data[key].count, collected:data[key].collected, unlocked:data[key].unlocked, type_key:type_key, rarity_key:rarity_key, type:type};
 				mythical.push(temptable);
 			}
 			if (key.startsWith("legendary") == true && key.includes("boss") != true) {
-				let temptable = {id:key, count:data[key].count, collected:data[key].collected, unlocked:data[key].unlocked, type_key:type_key, rarity_key:rarity_key};
+				let temptable = {id:key, count:data[key].count, collected:data[key].collected, unlocked:data[key].unlocked, type_key:type_key, rarity_key:rarity_key, type:type};
 				legendary.push(temptable);
 			}
 			if (key.includes("boss") == true) {
