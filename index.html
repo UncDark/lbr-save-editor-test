@@ -86,6 +86,10 @@ function openTab(evt, content) {
 	document.getElementById("natures").style.display = "block";
 	document.getElementById("main_resources").style.display = "block";
   }
+  if (content == 'main_dice') {
+	document.getElementById("dices").style.display = "block";
+	document.getElementById("main_resources").style.display = "block";
+  }
   evt.currentTarget.className += " active";
 
 }
@@ -145,7 +149,7 @@ function openTab(evt, content) {
                 Revolution</a> game.
             It is not affiliated with the game or its developer. <b>Using this tool in multiplayer modes may result in a ban.</b>
             Do NOT use this tool in multiplayer mode. You have been warned. We are NOT responsible for any actions taken onto your account.</c>
-            Current version : 1.3.0</d>
+            Current version : 1.3.1</d>
         </p>
         <h2>How to use</h2>
         <p>
@@ -180,6 +184,7 @@ function openTab(evt, content) {
             <button class="tablink" onclick="openTab(event, 'borbventure')">Borbventure</button>
 			<button class="tablink" onclick="openTab(event, 'mine')">Mines</button>
 			<button class="tablink" onclick="openTab(event, 'main_cards')">Cards</button>
+			<button class="tablink" onclick="openTab(event, 'main_dice')">Dice</button>
 			<button class="tablink" onclick="openTab(event, 'main_enemies')">Enemy Index</button>
 			<button class="tablink" onclick="openTab(event, 'main_relics')">Relics</button>
 			<button class="tablink" onclick="openTab(event, 'nature_event')">Nature Event</button>
@@ -193,7 +198,9 @@ function openTab(evt, content) {
 				<table class="content" id="leaves" style="display: none"></table>
 				<table class="content" id="borbventures" style="display: none"></table>
 				<table class="content" id="mines" style="display: none"></table>
+				<table class="content" id="dices" style="display: none"></table>
 				<table class="content" id="souls" style="display: none"></table>
+				<table class="content" id="quarks" style="display: none"></table>
 				<table class="content" id="natures" style="display: none"></table>
               <!--</div>-->
             </div>
@@ -227,7 +234,6 @@ function openTab(evt, content) {
                 <!--table id="relics"></table-->
             </div>
 			<div id="main_relics" class="category" style="margin-right: 1.5em; float:left">
-				<p class="content" style="display:none">Note : Transcended leaves count is not listed here</p>
                 <table class="content" id="relics_common" style="display: none;margin-right: 1.5em"></table>
 				<table class="content" id="relics_uncommon" style="display: none;margin-right: 1.5em"></table>
 				<table class="content" id="relics_rare" style="display: none;margin-right: 1.5em"></table>
@@ -241,6 +247,10 @@ function openTab(evt, content) {
                 <table class="content" id="enemy_normal" style="display: none;margin-right: 1.5em"></table>
 				<table class="content" id="enemy_boss" style="display: none;margin-right: 1.5em"></table>
                 <!--table id="relics"></table-->
+            </div>
+			<div id="main_dice" class="category" style="margin-right: 1.5em; float:left">
+                <table class="content" id="dice" style="display: none"></table>
+				<table class="content" id="dice_backpack" style="display: none"></table>
             </div>
             <div style="margin-right: 1.5em">
                 <table class="content" id="crafted_leaves" style="display: none"></table>
