@@ -29,6 +29,11 @@ const currency = [
         id: "mlc",
         img: "spr_mlc_0.png",
     },
+	{
+        name: "ULC",
+        id: "ulc",
+        img: "",
+    },
 ];
 const leaves = [
     {
@@ -165,6 +170,11 @@ const leaves = [
         name: "Quark Leaves",
         id: "quark",
         img: "Quark_Leaf.png",
+    },
+	{
+        name: "Dusk Leaves",
+        id: "dusk",
+        img: "",
     },
     {},
     {
@@ -602,6 +612,18 @@ const souls = [
         img: "",
     },
 ];
+const fishings = [
+    {
+        name: "Trash",
+        id: "fish_trash",
+        img: "",
+    },
+    {
+        name: "Fish Credits",
+        id: "fish_credits",
+        img: "",
+    },
+];
 
 let currentSave;
 let currentProfile;
@@ -890,6 +912,7 @@ function createTables() {
 	resourceTablePrepare("souls",souls)
 	resourceTablePrepare("dices",dices)
 	resourceTablePrepare("quarks",quarks)
+	resourceTablePrepare("fishings",fishings)
     let artifactTable = document.getElementById("artifacts");
     while (artifactTable.firstChild) {
         artifactTable.removeChild(artifactTable.firstChild);
